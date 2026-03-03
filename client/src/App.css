@@ -1,77 +1,97 @@
-/* Centering the entire app */
+/* 1. Global Reset - Prevents "Squeezed" elements */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Essential for IT-sector production code */
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f2f5;
+  color: #333;
+}
+
+/* 2. Main App Layout */
 .app-container {
-  font-family: 'Arial', sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   min-height: 100vh;
-  background-color: #f4f7f6;
   padding: 20px;
 }
 
-/* Professional Navigation Bar */
+/* 3. Professional Navigation (Links at the Top) */
 nav {
-  background: #ffffff;
-  padding: 15px 30px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  margin-bottom: 40px;
-  width: 100%;
-  max-width: 400px;
   display: flex;
-  justify-content: space-around;
+  gap: 30px;
+  background: white;
+  padding: 15px 40px;
+  border-radius: 50px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
 }
 
 nav a {
   text-decoration: none;
-  color: #333;
-  font-weight: bold;
-  transition: color 0.3s;
+  font-weight: 600;
+  font-size: 1.1rem;
 }
 
-nav a:hover {
-  color: #007bff; /* Blue color on hover */
-}
+/* Colors based on your current UI */
+nav a:first-child { color: #28a745; } /* Green for Register */
+nav a:last-child { color: #007bff; }  /* Blue for Login */
 
-/* Styling the Login/Register Boxes */
+/* 4. The Form Card - Centered and Spaced */
 form {
-  background: white;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  background: #ffffff;
   width: 100%;
-  max-width: 350px;
+  max-width: 400px;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 20px;
 }
 
+h2 {
+  text-align: center;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+/* 5. Input Field Fix (Fixes the "Dark" visibility issue) */
 input {
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 16px;
+  width: 100%;
+  padding: 14px;
+  border: 2px solid #e1e1e1;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #fafafa;
+  color: #333;
+  transition: border-color 0.3s ease;
 }
 
+input:focus {
+  outline: none;
+  border-color: #28a745; /* Turns green when you click it */
+}
+
+/* 6. The Button - Full width and Easy to tap */
 button {
-  background-color: #28a745; /* Safe Green color */
+  background-color: #28a745;
   color: white;
-  padding: 12px;
   border: none;
-  border-radius: 6px;
-  font-size: 16px;
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: transform 0.2s, background 0.3s;
 }
 
 button:hover {
   background-color: #218838;
-}
-
-/* Responsive adjustment for small screens */
-@media (max-width: 480px) {
-  form {
-    width: 90%;
-    padding: 20px;
-  }
+  transform: translateY(-2px);
 }
