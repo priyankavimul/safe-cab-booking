@@ -15,12 +15,24 @@
 
 // module.exports = pool;
 
-const { Pool } = require('pg');
+const { Sequelize } = require('sequelize');
 require('dotenv').config();
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false } // Required for Neon
+// Create the Sequelize instance instead of a Pool
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialect: 'postgres',
+  logging: false, // Keeps your console clean
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false // Required for Neon [cite: 294]
+    }
+  }
 });
 
-module.exports = pool;
+// Test the connection
+sequelize.authenticate()
+  .then(() => console.log(' Sequelize connected to Neon!'))
+  .catch(err => console.error('Unable to connect:', err));
+
+module.exports = sequelize;

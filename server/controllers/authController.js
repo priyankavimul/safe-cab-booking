@@ -1,37 +1,52 @@
-const pool = require('../db');
+const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-// 1. Register Logic
-exports.registerUser = async (req, res) => {
-  const { name, email, password, mobile_number, emergency_contact, latitude, longitude } = req.body;
+exports.register = async (req, res) => {
   try {
+    const { name, email, password, phone, role, emergencyContacts } = req.body;
+
+    // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
+ 
+    // create the user in neon
+    const newUser = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+      phone,
+      role: role || 'rider',
+      emergencyContacts: emergencyContacts || []
+    });
 
-    const newUser = await pool.query(
-      "INSERT INTO users (name, email, password, mobile_number, emergency_contact, latitude, longitude) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
-      [name, email, hashedPassword, mobile_number, emergency_contact, latitude || 0, longitude || 0]
-    );
-    res.status(201).json({ message: "User created!", user: newUser.rows[0] });
-  } catch (err) {
-    res.status(500).json({ error: "Registration failed." });
+    res.status(201).json({ message: "User registered successfully", userId: newUser.id });
+  } catch (error) {
+    res.status(400).json({ error: error.message || "Registration failed" });
   }
 };
 
-// 2. Login Logic
-exports.loginUser = async (req, res) => {
-  const { email, password } = req.body;
-  try {
-    const user = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
-    if (user.rows.length === 0) return res.status(404).json({ error: "User not found" });
+exports.login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        
+        // 1. Find user [cite: 247]
+        const user = await User.findOne({ where: { email } });
+        if (!user) return res.status(404).json({ error: "User not found" });
 
-    const isMatch = await bcrypt.compare(password, user.rows[0].password);
-    if (!isMatch) return res.status(401).json({ error: "Invalid credentials" });
+        // 2. Check password [cite: 32, 241]
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) return res.status(401).json({ error: "Invalid credentials" });
 
-    const token = jwt.sign({ id: user.rows[0].id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    res.json({ token, user: { name: user.rows[0].name, rating: user.rows[0].rating } });
-  } catch (err) {
-    res.status(500).json({ error: "Login error" });
-  }
+        // 3. Issue JWT Token [cite: 32, 294]
+        const token = jwt.sign(
+            { id: user.id, role: user.role }, 
+            process.env.JWT_SECRET, 
+            { expiresIn: '24h' }
+        );
+
+        res.json({ token, user: { id: user.id, name: user.name, role: user.role } });
+    } catch (error) {
+        res.status(500).json({ error: "Server error" });
+    }
 };
