@@ -1,55 +1,37 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import "./Auth.css";
 
 function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
+  });
 
-  const handleLogin = async (e) => {
+  const handleChange = (e) => {
+    setLoginData({ ...loginData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      // 1. Sending login request to Priyanka's server
-      const response = await axios.post("http://localhost:5000/api/auth/login", {
-        email,
-        password
-      });
-
-      // 2. Saving the 'Hall Pass' (Token) in the browser
-      localStorage.setItem("token", response.data.token);
-      
-      alert("Login Successful! Welcome back.");
-      
-      // 3. Move to the Dashboard (we will create this next)
-      navigate("/dashboard");
-    } catch (err) {
-      // Show the error message from the backend
-      alert(err.response?.data?.error || "Login Failed!");
-    }
+    alert("Login Successful");
   };
 
   return (
-    <div className="auth-container">
-      <h2>Login to Safe Cab</h2>
-      <form onSubmit={handleLogin}>
-        <input 
-          type="email" 
-          placeholder="Email Address" 
-          onChange={(e) => setEmail(e.target.value)} 
-          required 
-        />
-        <input 
-          type="password" 
-          placeholder="Password" 
-          onChange={(e) => setPassword(e.target.value)} 
-          required 
-        />
-        <button type="submit">Sign In</button>
-      </form>
+    <div className="auth-wrapper">
+      <div className="auth-card">
+        <h2> Welcome to the Safe Cab </h2>
+
+        <form onSubmit={handleSubmit}>
+          <input type="email" name="email" placeholder="Email Address" onChange={handleChange} required />
+          <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
+
+          <button type="submit">Login</button>
+        </form>
+      </div>
     </div>
   );
+
+
 }
 
-// IMPORTANT: This fixes the 'default export' error you saw earlier!
 export default Login;
