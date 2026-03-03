@@ -14,12 +14,10 @@ function App() {
         </nav>
 
         <Routes>
-          {/* This tells React: "If the URL is /register, show the Register component" */}
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
           
-          {/* Default page is Register */}
-          <Route path="/" element={<Register />} />
+        <Route path="/" element={<Register />} /> 
+        <Route path="/register" element={<Register />} />
+
         </Routes>
       </div>
     </Router>
