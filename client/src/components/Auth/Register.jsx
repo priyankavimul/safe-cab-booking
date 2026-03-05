@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import './Auth.css';
+import taxiBg from '../../assets/Gemini_Generated_Image_w88llgw88llgw88l (2).png';
 
 const Register = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const [formData, setFormData] = useState({
     name: '', email: '', phone: '', password: '', confirmPassword: '', gender: 'Female',
     emergencyContacts: [{ name: '', phone: '', relationship: '', isWhatsApp: true }]
@@ -43,88 +43,48 @@ const Register = () => {
 
   return (
     <div className="auth-page">
-      {/* Taxi Illustration Header */}
       <div className="auth-illustration">
-        <div className="city-skyline">
-          <svg viewBox="0 0 400 120" className="skyline-svg">
-            <defs>
-              <linearGradient id="skyGradient2" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#87CEEB" />
-                <stop offset="100%" stopColor="#B0E0E6" />
-              </linearGradient>
-            </defs>
-            <rect width="400" height="120" fill="url(#skyGradient2)" />
-            <rect x="20" y="40" width="30" height="80" fill="#4a5568" rx="2" />
-            <rect x="25" y="45" width="8" height="6" fill="#fbbf24" opacity="0.7" />
-            <rect x="37" y="45" width="8" height="6" fill="#fbbf24" opacity="0.5" />
-            <rect x="60" y="25" width="35" height="95" fill="#2d3748" rx="2" />
-            <rect x="65" y="30" width="8" height="6" fill="#fbbf24" opacity="0.5" />
-            <rect x="80" y="30" width="8" height="6" fill="#fbbf24" opacity="0.7" />
-            <rect x="65" y="42" width="8" height="6" fill="#fbbf24" opacity="0.8" />
-            <rect x="80" y="42" width="8" height="6" fill="#fbbf24" opacity="0.4" />
-            <rect x="105" y="50" width="25" height="70" fill="#4a5568" rx="2" />
-            <rect x="280" y="30" width="30" height="90" fill="#2d3748" rx="2" />
-            <rect x="285" y="35" width="8" height="6" fill="#fbbf24" opacity="0.6" />
-            <rect x="297" y="35" width="8" height="6" fill="#fbbf24" opacity="0.8" />
-            <rect x="320" y="45" width="35" height="75" fill="#4a5568" rx="2" />
-            <rect x="325" y="50" width="8" height="6" fill="#fbbf24" opacity="0.8" />
-            <rect x="340" y="50" width="8" height="6" fill="#fbbf24" opacity="0.5" />
-            <rect x="365" y="55" width="25" height="65" fill="#2d3748" rx="2" />
-            <rect x="0" y="110" width="400" height="10" fill="#4a5568" />
-            <line x1="0" y1="115" x2="400" y2="115" stroke="#fbbf24" strokeWidth="1" strokeDasharray="12 8" />
-          </svg>
-        </div>
-        <div className="taxi-car">
-          <svg viewBox="0 0 160 70" className="taxi-svg">
-            <rect x="10" y="25" width="140" height="28" rx="8" fill="#FBBF24" />
-            <path d="M 50 25 Q 55 5 80 5 Q 105 5 110 25" fill="#1a202c" stroke="#FBBF24" strokeWidth="1.5" />
-            <path d="M 55 24 Q 58 10 78 10 L 78 24 Z" fill="#63b3ed" opacity="0.7" />
-            <path d="M 82 24 Q 82 10 102 10 Q 105 24 105 24 Z" fill="#63b3ed" opacity="0.7" />
-            <rect x="68" y="1" width="24" height="9" rx="2" fill="#FBBF24" stroke="#d69e2e" strokeWidth="0.5" />
-            <text x="80" y="8" textAnchor="middle" fontSize="6" fontWeight="bold" fill="#1a202c">TAXI</text>
-            <circle cx="148" cy="35" r="4" fill="#fef3c7" />
-            <circle cx="14" cy="35" r="4" fill="#fca5a5" opacity="0.8" />
-            <circle cx="40" cy="53" r="12" fill="#2d3748" />
-            <circle cx="40" cy="53" r="6" fill="#718096" />
-            <circle cx="40" cy="53" r="2" fill="#2d3748" />
-            <circle cx="120" cy="53" r="12" fill="#2d3748" />
-            <circle cx="120" cy="53" r="6" fill="#718096" />
-            <circle cx="120" cy="53" r="2" fill="#2d3748" />
-            <rect x="70" y="33" width="12" height="2" rx="1" fill="#d69e2e" />
-          </svg>
-        </div>
+        <img src={taxiBg} alt="Taxi Background" className="auth-image" />
       </div>
 
-      {/* Auth Card */}
       <div className="auth-container">
-        {/* Toggle Tabs */}
-        <div className="auth-tabs">
-          <Link to="/login" className={`auth-tab ${location.pathname === '/login' ? 'active' : ''}`}>Login</Link>
-          <Link to="/register" className={`auth-tab ${location.pathname === '/register' ? 'active' : ''}`}>Register</Link>
-        </div>
-
         <form onSubmit={handleSubmit}>
+
           <div className="input-group">
             <label className="auth-label">Full Name</label>
             <div className="input-icon-wrapper">
-              <span className="input-icon">👤</span>
-              <input type="text" name="name" placeholder="Enter your name" value={formData.name} onChange={handleChange} className="auth-input" required />
+              <span className="input-icon">
+                <svg viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </span>
+              <input type="text" name="name" placeholder="Enter your full name" value={formData.name} onChange={handleChange} className="auth-input" required />
             </div>
           </div>
 
           <div className="input-group">
-            <label className="auth-label">Email Address</label>
+            <label className="auth-label">Email address</label>
             <div className="input-icon-wrapper">
-              <span className="input-icon">✉️</span>
-              <input type="email" name="email" placeholder="Enter your email" value={formData.email} onChange={handleChange} className="auth-input" required />
+              <span className="input-icon">
+                <svg viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+              </span>
+              <input type="email" name="email" placeholder="davidjonson@gmail.com" value={formData.email} onChange={handleChange} className="auth-input" required />
             </div>
           </div>
 
           <div className="input-group">
             <label className="auth-label">Phone Number</label>
             <div className="input-icon-wrapper">
-              <span className="input-icon">📱</span>
-              <input type="text" name="phone" placeholder="Enter your number" value={formData.phone} onChange={handleChange} className="auth-input" required />
+              <span className="input-icon">
+                <svg viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+              </span>
+              <input type="text" name="phone" placeholder="Enter phone number" value={formData.phone} onChange={handleChange} className="auth-input" required />
             </div>
           </div>
 
@@ -132,14 +92,24 @@ const Register = () => {
             <div style={{ flex: 1 }}>
               <label className="auth-label">Password</label>
               <div className="input-icon-wrapper">
-                <span className="input-icon">🔒</span>
+                <span className="input-icon">
+                  <svg viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                </span>
                 <input type="password" name="password" placeholder="••••••••" value={formData.password} onChange={handleChange} className="auth-input" required />
               </div>
             </div>
             <div style={{ flex: 1 }}>
               <label className="auth-label">Confirm</label>
               <div className="input-icon-wrapper">
-                <span className="input-icon">🔒</span>
+                <span className="input-icon">
+                  <svg viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                </span>
                 <input type="password" name="confirmPassword" placeholder="••••••••" value={formData.confirmPassword} onChange={handleChange} className="auth-input" required />
               </div>
             </div>
@@ -148,7 +118,12 @@ const Register = () => {
           <div className="input-group">
             <label className="auth-label">Gender</label>
             <div className="input-icon-wrapper">
-              <span className="input-icon">⚧</span>
+              <span className="input-icon">
+                <svg viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="12" y1="21" x2="12" y2="15"></line>
+                  <circle cx="12" cy="9" r="6"></circle>
+                </svg>
+              </span>
               <select name="gender" value={formData.gender} onChange={handleChange} className="auth-select">
                 <option value="Female">Female</option>
                 <option value="Male">Male</option>
@@ -157,22 +132,29 @@ const Register = () => {
             </div>
           </div>
 
-          <div className="divider"></div>
-
           <div className="contact-header">Emergency Contacts ({formData.emergencyContacts.length}/5)</div>
 
           {formData.emergencyContacts.map((contact, index) => (
             <div key={index} className="contact-card">
               <div className="input-group">
                 <div className="input-icon-wrapper">
-                  <span className="input-icon">👤</span>
+                  <span className="input-icon">
+                    <svg viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                      <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                  </span>
                   <input type="text" placeholder="Contact Name" value={contact.name} onChange={(e) => handleContactChange(index, 'name', e.target.value)} className="auth-input" required />
                 </div>
               </div>
               <div className="auth-row" style={{ marginBottom: 0 }}>
                 <div style={{ flex: 3 }}>
                   <div className="input-icon-wrapper">
-                    <span className="input-icon">📞</span>
+                    <span className="input-icon">
+                      <svg viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                      </svg>
+                    </span>
                     <input type="text" placeholder="Phone Number" value={contact.phone} onChange={(e) => handleContactChange(index, 'phone', e.target.value)} className="auth-input" required />
                   </div>
                 </div>
@@ -192,7 +174,11 @@ const Register = () => {
             <button type="button" onClick={handleAddContact} className="add-button">+ Add Another Contact</button>
           )}
 
-          <button type="submit" className="submit-button">Register Account</button>
+          <button type="submit" className="submit-button">Sign up</button>
+
+          <div className="bottom-nav" style={{ marginTop: '30px' }}>
+            Already have an account? Go to <Link to="/login">Sign In</Link>
+          </div>
         </form>
       </div>
     </div>

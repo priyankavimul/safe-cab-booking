@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 /* ========================================
-   AUTH PAGE – Full-screen dark layout
+   AUTH PAGE – Full-screen neon dark layout
    ======================================== */
 .auth-page {
   display: flex;
@@ -13,131 +13,77 @@
 }
 
 /* ========================================
-   TAXI ILLUSTRATION HEADER
+   ILLUSTRATION HEADER & GLOW
    ======================================== */
 .auth-illustration {
   width: 100%;
-  max-width: 480px;
+  max-width: 440px;
   position: relative;
-  overflow: hidden;
-  border-radius: 24px 24px 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-top: 20px;
 }
 
-.city-skyline {
-  width: 100%;
-  display: block;
-  line-height: 0;
-}
-
-.skyline-svg {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.taxi-car {
+/* Glowing green aura behind the image */
+.auth-illustration::before {
+  content: '';
   position: absolute;
-  bottom: 6px;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
-  width: 55%;
-  animation: driveIn 0.8s ease-out;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  height: 70%;
+  background: radial-gradient(circle, rgba(0, 230, 118, 0.3) 0%, transparent 70%);
+  z-index: 0;
+  pointer-events: none;
 }
 
-.taxi-svg {
+.auth-image {
   width: 100%;
+  max-width: 320px;
   height: auto;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
-}
-
-@keyframes driveIn {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateX(-50%);
-    opacity: 1;
-  }
+  display: block;
+  object-fit: contain;
+  z-index: 1;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
 }
 
 /* ========================================
-   AUTH CONTAINER (Dark Card)
+   AUTH CONTAINER (Seamless)
    ======================================== */
 .auth-container {
-  max-width: 480px;
+  max-width: 440px;
   width: 100%;
   margin: 0;
-  padding: 30px 30px 35px;
-  background-color: #1a202c;
-  border-radius: 0 0 24px 24px;
+  padding: 0 30px 40px;
+  background-color: transparent; /* No card background */
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
   box-sizing: border-box;
   animation: slideUp 0.4s ease-out;
 }
 
 @keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ========================================
-   TOGGLE TABS (Login / Register)
-   ======================================== */
-.auth-tabs {
-  display: flex;
-  background-color: #2d3748;
-  border-radius: 12px;
-  padding: 4px;
-  margin-bottom: 28px;
-}
-
-.auth-tab {
-  flex: 1;
-  text-align: center;
-  padding: 12px 0;
-  font-size: 15px;
-  font-weight: 600;
-  color: #a0aec0;
-  text-decoration: none;
-  border-radius: 10px;
-  transition: all 0.25s ease;
-  cursor: pointer;
-}
-
-.auth-tab.active {
-  background-color: #fbbf24;
-  color: #1a202c;
-  box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3);
-}
-
-.auth-tab:hover:not(.active) {
-  color: #e2e8f0;
-}
-
-/* ========================================
-   INPUT FIELDS
+   INPUT FIELDS (Outline Style)
    ======================================== */
 .input-group {
-  margin-bottom: 18px;
+  margin-bottom: 24px;
 }
 
 .auth-label {
   display: block;
-  font-size: 13px;
+  font-size: 12px;
   color: #a0aec0;
-  margin-bottom: 7px;
+  margin-bottom: 8px;
   font-weight: 500;
   letter-spacing: 0.3px;
+  margin-left: 4px; /* Align slightly with rounded inputs */
 }
 
 .input-icon-wrapper {
@@ -148,190 +94,146 @@
 
 .input-icon {
   position: absolute;
-  left: 14px;
+  left: 18px;
   font-size: 16px;
+  color: #a0aec0;
   z-index: 1;
   pointer-events: none;
   line-height: 1;
+  display: flex;
 }
 
-.auth-input,
-.auth-select {
+.input-icon svg {
+  stroke: #a0aec0;
+  fill: none;
+  width: 18px;
+  height: 18px;
+  transition: stroke 0.2s ease;
+}
+
+.input-icon-right {
+  position: absolute;
+  right: 18px;
+  font-size: 16px;
+  color: #a0aec0;
+  cursor: pointer;
+  display: flex;
+}
+
+.input-icon-right svg {
+  stroke: #a0aec0;
+  fill: none;
+  width: 18px;
+  height: 18px;
+}
+
+.auth-input, .auth-select {
   width: 100%;
-  padding: 13px 16px 13px 44px;
-  font-size: 15px;
-  color: #e2e8f0;
-  border: 1.5px solid #4a5568;
-  border-radius: 12px;
+  padding: 16px 44px 16px 48px;
+  font-size: 14px;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 30px; /* Fully rounded pill shape */
   box-sizing: border-box;
   outline: none;
-  transition: all 0.2s ease;
-  background-color: #2d3748;
+  transition: all 0.25s ease;
+  background-color: transparent;
   font-family: inherit;
   appearance: none;
 }
 
-/* Select without icon wrapper needs normal padding */
-select.auth-select:not(.input-icon-wrapper > .auth-select) {
-  padding-left: 16px;
+.auth-input:focus, .auth-select:focus {
+  border-color: #00E676; /* Neon green focus */
+  background-color: rgba(255, 255, 255, 0.02);
+  box-shadow: 0 0 15px rgba(0, 230, 118, 0.1);
 }
 
-select.auth-select {
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a0aec0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 1rem center;
-  background-size: 1em;
-  padding-right: 2.5rem;
-}
-
-select.auth-select option {
-  background-color: #2d3748;
-  color: #e2e8f0;
-}
-
-.auth-input:focus,
-.auth-select:focus {
-  border-color: #fbbf24;
-  box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.15);
+.auth-input:focus + .input-icon svg {
+  stroke: #00E676;
 }
 
 .auth-input::placeholder {
-  color: #718096;
-}
-
-.auth-row {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 18px;
+  color: #64748b;
 }
 
 /* ========================================
-   REMEMBER ME / FORGOT PASSWORD
+   REMEMBER ME / TERMS
    ======================================== */
 .remember-forgot-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 30px;
+  margin-left: 4px;
 }
 
 .remember-me {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  color: #a0aec0;
+  gap: 10px;
+  font-size: 12px;
+  color: #e2e8f0;
   cursor: pointer;
 }
 
 .remember-me input[type="checkbox"] {
   width: 16px;
   height: 16px;
-  accent-color: #fbbf24;
+  accent-color: #00E676;
+  background: transparent;
+  border: 1px solid #4a5568;
   cursor: pointer;
 }
 
 .forgot-link {
-  font-size: 13px;
-  color: #fbbf24;
+  font-size: 12px;
+  color: #00E676;
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s;
 }
 
 .forgot-link:hover {
-  color: #f59e0b;
+  color: #10ff8d;
   text-decoration: underline;
 }
 
 /* ========================================
-   DIVIDER & CONTACT SECTION
-   ======================================== */
-.divider {
-  height: 1px;
-  background-color: #4a5568;
-  margin: 24px 0 18px 0;
-}
-
-.contact-header {
-  font-size: 12px;
-  font-weight: 700;
-  color: #fbbf24;
-  text-transform: uppercase;
-  margin-bottom: 14px;
-  letter-spacing: 0.8px;
-}
-
-.contact-card {
-  background-color: #2d3748;
-  border: 1px solid #4a5568;
-  border-radius: 14px;
-  padding: 16px;
-  margin-bottom: 16px;
-  transition: border-color 0.2s ease;
-}
-
-.contact-card:hover {
-  border-color: #fbbf24;
-}
-
-/* ========================================
-   BUTTONS
+   BUTTONS (Neon Solid)
    ======================================== */
 .submit-button {
   width: 100%;
-  padding: 15px;
-  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-  color: #1a202c;
+  padding: 16px;
+  background-color: #00E676;
+  color: #000000;
   border: none;
-  border-radius: 12px;
+  border-radius: 30px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   font-family: inherit;
-  box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 230, 118, 0.3);
   transition: all 0.2s ease;
-  margin-top: 8px;
   letter-spacing: 0.3px;
 }
 
 .submit-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(251, 191, 36, 0.45);
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  box-shadow: 0 6px 25px rgba(0, 230, 118, 0.45);
+  background-color: #10ff8d;
 }
 
 .submit-button:active {
   transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3);
-}
-
-.add-button {
-  width: 100%;
-  padding: 13px;
-  background-color: transparent;
-  color: #fbbf24;
-  border: 2px dashed #4a5568;
-  border-radius: 12px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 600;
-  font-family: inherit;
-  margin-bottom: 24px;
-  transition: all 0.2s ease;
-}
-
-.add-button:hover {
-  border-color: #fbbf24;
-  background-color: rgba(251, 191, 36, 0.05);
+  box-shadow: 0 2px 10px rgba(0, 230, 118, 0.3);
 }
 
 /* ========================================
-   SOCIAL LOGIN
+   SOCIAL LOGIN (Outline)
    ======================================== */
 .social-divider {
   text-align: center;
-  margin: 24px 0 20px;
+  margin: 30px 0 24px;
   position: relative;
 }
 
@@ -340,29 +242,31 @@ select.auth-select option {
   content: '';
   position: absolute;
   top: 50%;
-  width: 30%;
+  width: 25%;
   height: 1px;
-  background-color: #4a5568;
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
-.social-divider::before {
-  left: 0;
-}
-
-.social-divider::after {
-  right: 0;
-}
+.social-divider::before { left: 0; }
+.social-divider::after { right: 0; }
 
 .social-divider span {
-  font-size: 13px;
-  color: #718096;
-  padding: 0 12px;
-  background-color: #1a202c;
+  font-size: 12px;
+  color: #a0aec0;
+  padding: 0 16px;
+  background-color: transparent; /* Needs to match App background, we will just use transparent if it's placed over a solid background */
 }
+
+/* Create a local dark pill behind the "or continue with" text to hide the border */
+.social-divider span {
+  background-color: #0b1114; /* Matches the new global App.css background */
+}
+
 
 .social-buttons {
   display: flex;
-  gap: 12px;
+  gap: 16px;
+  margin-bottom: 30px;
 }
 
 .social-btn {
@@ -371,86 +275,109 @@ select.auth-select option {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 13px;
-  border-radius: 12px;
-  font-size: 14px;
+  padding: 14px;
+  border-radius: 30px;
+  font-size: 13px;
   font-weight: 600;
   font-family: inherit;
   cursor: pointer;
   transition: all 0.2s ease;
-  border: none;
+  background-color: transparent;
+  color: #e2e8f0;
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-.google-btn {
-  background-color: #ffffff;
-  color: #1a202c;
+.social-btn:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
-.google-btn:hover {
-  background-color: #f3f4f6;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.15);
-}
-
-.facebook-btn {
-  background-color: #1877F2;
-  color: #ffffff;
-}
-
-.facebook-btn:hover {
-  background-color: #1565d8;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(24, 119, 242, 0.3);
+.social-btn svg {
+  width: 18px;
+  height: 18px;
 }
 
 /* ========================================
-   📱 RESPONSIVE – MOBILE
+   BOTTOM NAVIGATION (Register Link)
    ======================================== */
+.bottom-nav {
+  text-align: center;
+  font-size: 13px;
+  color: #a0aec0;
+}
+
+.bottom-nav a {
+  color: #00E676;
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 4px;
+}
+
+.bottom-nav a:hover {
+  text-decoration: underline;
+  color: #10ff8d;
+}
+
+/* ========================================
+   Register specific styles
+   ======================================== */
+.auth-row {
+  display: flex;
+  gap: 16px;
+}
+
+.contact-card {
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.contact-header {
+  font-size: 12px;
+  font-weight: 600;
+  color: #a0aec0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+  margin-left: 4px;
+}
+
+.add-button {
+  background-color: transparent;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  color: #00E676;
+  width: 100%;
+  padding: 14px;
+  border-radius: 30px;
+  margin-bottom: 30px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.add-button:hover {
+  background-color: rgba(0, 230, 118, 0.05);
+  border-color: #00E676;
+}
+
+/* 📱 RESPONSIVE – MOBILE */
 @media (max-width: 640px) {
-  .auth-illustration {
-    border-radius: 0;
-  }
-
   .auth-container {
-    padding: 24px 20px 30px;
-    border-radius: 0 0 20px 20px;
+    padding: 0 20px 40px;
   }
-
+  
   .auth-row {
     flex-direction: column;
     gap: 0;
   }
 
-  .auth-row>div {
-    margin-bottom: 14px;
+  .auth-row > div {
+    margin-bottom: 24px;
   }
 
-  .auth-row>div:last-child {
+  .auth-row > div:last-child {
     margin-bottom: 0;
-  }
-
-  .contact-card {
-    padding: 14px;
-  }
-
-  .auth-input,
-  .auth-select {
-    padding: 12px 14px 12px 40px;
-    font-size: 16px;
-    /* Prevents iOS Safari auto-zoom */
-  }
-
-  .social-buttons {
-    flex-direction: column;
-  }
-
-  .remember-forgot-row {
-    flex-direction: column;
-    gap: 10px;
-    align-items: flex-start;
-  }
-
-  .taxi-car {
-    width: 65%;
   }
 }
