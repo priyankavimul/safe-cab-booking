@@ -1,0 +1,241 @@
+/* ========================================
+   DASHBOARD / UBER STYLE LAYOUT
+   ======================================== */
+.dashboard-container {
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    width: 100%;
+    height: calc(100vh - 65px);
+    /* Subtract nav height */
+    background-color: #0f172a;
+    /* Match app background */
+    overflow: hidden;
+}
+
+/* ========================================
+   LEFT PANEL (Booking Form & Recents)
+   ======================================== */
+.booking-panel {
+    background-color: #1a202c;
+    /* SafeCab dark panel */
+    padding: 30px;
+    height: 100%;
+    overflow-y: auto;
+    border-right: 1px solid #2d3748;
+    z-index: 10;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.booking-header h2 {
+    margin: 0 0 25px 0;
+    font-size: 28px;
+    color: #f8fafc;
+    font-weight: 700;
+}
+
+.booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* --- Input Area with Dots --- */
+.location-inputs {
+    position: relative;
+    background: #0f172a;
+    border-radius: 12px;
+    border: 1px solid #2d3748;
+}
+
+.input-row {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    position: relative;
+}
+
+.pickup-row {
+    border-bottom: 1px solid #2d3748;
+}
+
+.location-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #e2e8f0;
+    font-size: 15px;
+    padding-left: 10px;
+    font-family: inherit;
+}
+
+.location-input::placeholder {
+    color: #64748b;
+}
+
+/* Timeline Dots */
+.dot-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    position: relative;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    z-index: 2;
+}
+
+.black-dot {
+    background-color: #fbbf24;
+    /* SafeCab yellow dot */
+}
+
+.square-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #00E676;
+    /* Accent dropoff dot */
+    z-index: 2;
+}
+
+.line-connector {
+    position: absolute;
+    width: 2px;
+    height: 48px;
+    background-color: #2d3748;
+    top: 15px;
+    z-index: 1;
+}
+
+/* --- Dropdowns --- */
+.form-dropdowns {
+    display: flex;
+    gap: 10px;
+}
+
+.ui-select {
+    flex: 1;
+    background: #0f172a;
+    border: 1px solid #2d3748;
+    color: #e2e8f0;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.ui-select:focus {
+    outline: none;
+    border-color: #fbbf24;
+}
+
+/* --- Main Button --- */
+.search-btn {
+    background-color: #00E676;
+    color: #000;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 16px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.2s ease;
+}
+
+.search-btn:hover {
+    background-color: #10ff8d;
+}
+
+/* ========================================
+   RECENT LOCATIONS
+   ======================================== */
+.recent-locations {
+    margin-top: 40px;
+    border-top: 1px solid #2d3748;
+    padding-top: 20px;
+}
+
+.recent-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px dashed #2d3748;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border-radius: 8px;
+}
+
+.recent-item:hover {
+    background-color: rgba(255, 255, 255, 0.02);
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.icon-circle {
+    background-color: #0f172a;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #a0aec0;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.recent-text h4 {
+    margin: 0 0 4px 0;
+    color: #f8fafc;
+    font-size: 15px;
+}
+
+.recent-text p {
+    margin: 0;
+    color: #64748b;
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 280px;
+}
+
+/* ========================================
+   RIGHT PANEL (Google Map Full Bleed)
+   ======================================== */
+.map-panel {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-color: #e2e8f0;
+    /* Map loading placeholder color */
+}
+
+/* ========================================
+   MOBILE RESPONSIVENESS
+   ======================================== */
+@media (max-width: 850px) {
+    .dashboard-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 50vh;
+        overflow-y: auto;
+    }
+
+    .booking-panel {
+        border-right: none;
+        box-shadow: none;
+        height: auto;
+    }
+
+    .map-panel {
+        height: 50vh;
+        min-height: 400px;
+    }
+}

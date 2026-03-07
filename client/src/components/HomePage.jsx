@@ -1,21 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { FiClock } from 'react-icons/fi';
+import { FaRegHeart } from 'react-icons/fa';
+import './Home.css';
+
+// Google Maps Imports
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+
+const mapContainerStyle = {
+    height: "100%",
+    width: "100%"
+};
 
 const HomePage = () => {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
 
-    // State for the ride details
+    // Ride Details State
     const [rideDetails, setRideDetails] = useState({
         pickupLocation: '',
-        pickupLat: null,
-        pickupLng: null,
-        dropLocation: ''
+        pickupLat: 21.1458, // Default Nagpur Latitude
+        pickupLng: 79.0882, // Default Nagpur Longitude
+        dropLocation: '',
+        dropLat: null,
+        dropLng: null,
+        vehicleType: 'Cab Economy'
     });
+
     const [isLoadingLocation, setIsLoadingLocation] = useState(false);
 
-    // 1. Auth Check on Load
+    // Auth Check on Load
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
         const token = localStorage.getItem('token');
@@ -23,111 +38,143 @@ const HomePage = () => {
             navigate('/login');
         } else {
             setUser(JSON.parse(storedUser));
+            fetchCurrentLocation(); // Silently grab location on load
         }
     }, [navigate]);
 
-    // 2. Get Exact GPS Location
-    const handleGetCurrentLocation = () => {
-        setIsLoadingLocation(true);
+    // Silently Get Exact GPS Location
+    const fetchCurrentLocation = () => {
         if ("geolocation" in navigator) {
+            setIsLoadingLocation(true);
             navigator.geolocation.getCurrentPosition(
                 (position) => {
-                    setRideDetails({
-                        ...rideDetails,
+                    setRideDetails(prev => ({
+                        ...prev,
                         pickupLat: position.coords.latitude,
                         pickupLng: position.coords.longitude,
-                        pickupLocation: "📍 My Current GPS Location"
-                    });
+                        pickupLocation: "Your Current Location"
+                    }));
                     setIsLoadingLocation(false);
                 },
                 (error) => {
-                    alert("❌ Please allow location permissions in your browser.");
+                    console.log("Location access denied or failed.");
                     setIsLoadingLocation(false);
                 }
             );
-        } else {
-            alert("❌ Geolocation is not supported by your browser.");
-            setIsLoadingLocation(false);
         }
     };
 
-    const handleChange = (e) => {
-        setRideDetails({ ...rideDetails, [e.target.name]: e.target.value });
+    const handleLocationSelect = (type, location) => {
+        setRideDetails(prev => ({ ...prev, [type]: location }));
     };
 
-    // 3. Send Data to Huzaif's Backend
-    const handleBookRide = async (e) => {
-        e.preventDefault();
-        const token = localStorage.getItem('token'); // Grab the wristband
+    const handleVehicleSelect = (type) => {
+        setRideDetails(prev => ({ ...prev, vehicleType: type }));
+    };
 
+    const handleBookRide = async () => {
+        const token = localStorage.getItem('token');
         try {
             const response = await axios.post('http://localhost:5000/api/rides/request',
                 rideDetails,
-                { headers: { Authorization: `Bearer ${token}` } } // Send token for security
+                { headers: { Authorization: `Bearer ${token}` } }
             );
             alert("✅ " + response.data.message);
-            // Reset form after booking
-            setRideDetails({ pickupLocation: '', pickupLat: null, pickupLng: null, dropLocation: '' });
+            // Reset Drop Location after booking
+            setRideDetails(prev => ({ ...prev, dropLocation: '', dropLat: null, dropLng: null }));
         } catch (error) {
             alert("❌ Booking Failed: " + (error.response?.data?.error || "Server error"));
         }
     };
 
-    const handleLogout = () => {
-        localStorage.clear();
-        navigate('/login');
-    };
-
-    // -- UI STYLING --
-    const styles = {
-        container: { maxWidth: '500px', margin: '40px auto', padding: '25px', fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif", backgroundColor: '#fff', borderRadius: '15px', boxShadow: '0 4px 6px rgba(0,0,0,0.05)' },
-        header: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' },
-        title: { fontSize: '24px', fontWeight: 'bold', color: '#111', margin: 0 },
-        logoutBtn: { backgroundColor: '#fee2e2', color: '#ef4444', border: 'none', padding: '8px 16px', borderRadius: '20px', cursor: 'pointer', fontWeight: 'bold', fontSize: '12px' },
-        card: { backgroundColor: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '15px', padding: '20px' },
-        inputGroup: { marginBottom: '15px' },
-        label: { display: 'block', fontSize: '13px', color: '#555', marginBottom: '6px', marginLeft: '12px', fontWeight: '500' },
-        input: { width: '100%', padding: '14px 18px', fontSize: '14px', border: '1px solid #d1d5db', borderRadius: '25px', boxSizing: 'border-box', outline: 'none' },
-        locationRow: { display: 'flex', gap: '10px', alignItems: 'center' },
-        gpsBtn: { padding: '14px', backgroundColor: '#e0f2fe', color: '#0284c7', border: 'none', borderRadius: '25px', cursor: 'pointer', fontWeight: 'bold', whiteSpace: 'nowrap' },
-        submitBtn: { width: '100%', padding: '16px', backgroundColor: '#10b981', color: 'white', border: 'none', borderRadius: '30px', cursor: 'pointer', fontSize: '16px', fontWeight: 'bold', boxShadow: '0 4px 6px rgba(16, 185, 129, 0.2)', marginTop: '10px' }
-    };
-
     if (!user) return null;
 
     return (
-        <div style={styles.container}>
-            <div style={styles.header}>
-                <div>
-                    <h2 style={styles.title}>Hi, {user.name}! 👋</h2>
-                    <p style={{ margin: 0, color: '#666', fontSize: '14px' }}>Where to today?</p>
+        <div className="dashboard-container">
+            {/* Left Panel: Booking UI */}
+            <div className="booking-panel">
+                <div className="booking-header">
+                    <h2>Get a ride</h2>
                 </div>
-                <button onClick={handleLogout} style={styles.logoutBtn}>Sign Out</button>
+
+                <div className="booking-form">
+                    <div className="location-inputs">
+                        <div className="input-row pickup-row">
+                            <div className="dot-wrapper">
+                                <div className="dot black-dot"></div>
+                                <div className="line-connector"></div>
+                            </div>
+                            <input
+                                type="text"
+                                className="location-input"
+                                value={isLoadingLocation ? "Locating..." : (rideDetails.pickupLocation || '')}
+                                onChange={(e) => setRideDetails({ ...rideDetails, pickupLocation: e.target.value })}
+                                placeholder="Pickup location"
+                            />
+                        </div>
+                        <div className="input-row dropoff-row">
+                            <div className="dot-wrapper">
+                                <div className="square-dot"></div>
+                            </div>
+                            <input
+                                type="text"
+                                className="location-input"
+                                value={rideDetails.dropLocation}
+                                onChange={(e) => setRideDetails({ ...rideDetails, dropLocation: e.target.value })}
+                                placeholder="Dropoff location"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="form-dropdowns">
+                        <select className="ui-select">
+                            <option>Pickup now</option>
+                            <option>Schedule for later</option>
+                        </select>
+                        <select className="ui-select">
+                            <option>For me</option>
+                            <option>For a friend</option>
+                        </select>
+                    </div>
+
+                    <button className="search-btn" onClick={handleBookRide}>
+                        Search & Request
+                    </button>
+                </div>
+
+                {/* Suggestions / Recent Locations */}
+                <div className="recent-locations">
+                    <div className="recent-item" onClick={() => handleLocationSelect('dropLocation', 'Achraj Towers 1')}>
+                        <div className="icon-circle"><FiClock /></div>
+                        <div className="recent-text">
+                            <h4>Achraj Towers 1</h4>
+                            <p>Koradi Road, Chaoni Square, Rajnagar...</p>
+                        </div>
+                    </div>
+                    <div className="recent-item" onClick={() => handleLocationSelect('dropLocation', 'Main Road')}>
+                        <div className="icon-circle"><FiClock /></div>
+                        <div className="recent-text">
+                            <h4>Main Road</h4>
+                            <p>Shantinagar Colony, Nagpur...</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div style={styles.card}>
-                <form onSubmit={handleBookRide}>
-
-                    <div style={styles.inputGroup}>
-                        <label style={styles.label}>Pickup Location</label>
-                        <div style={styles.locationRow}>
-                            <input type="text" name="pickupLocation" placeholder="Enter pickup address..." value={rideDetails.pickupLocation} onChange={handleChange} style={styles.input} required />
-                            <button type="button" onClick={handleGetCurrentLocation} style={styles.gpsBtn} disabled={isLoadingLocation}>
-                                {isLoadingLocation ? "⏳" : "📍 Locate Me"}
-                            </button>
-                        </div>
-                        {rideDetails.pickupLat && (
-                            <p style={{ fontSize: '11px', color: '#10b981', marginLeft: '12px', marginTop: '6px' }}>✓ GPS Coordinates secured</p>
+            {/* Right Panel: Map */}
+            <div className="map-panel">
+                <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
+                    <GoogleMap
+                        mapContainerStyle={mapContainerStyle}
+                        center={{ lat: rideDetails.pickupLat || 21.1458, lng: rideDetails.pickupLng || 79.0882 }}
+                        zoom={14}
+                        options={{ disableDefaultUI: true, zoomControl: true }}
+                    >
+                        {rideDetails.pickupLat && rideDetails.pickupLng && (
+                            <Marker position={{ lat: rideDetails.pickupLat, lng: rideDetails.pickupLng }} />
                         )}
-                    </div>
-
-                    <div style={styles.inputGroup}>
-                        <label style={styles.label}>Drop-off Location</label>
-                        <input type="text" name="dropLocation" placeholder="Where do you want to go?" value={rideDetails.dropLocation} onChange={handleChange} style={styles.input} required />
-                    </div>
-
-                    <button type="submit" style={styles.submitBtn}>Request Safe Cab</button>
-                </form>
+                    </GoogleMap>
+                </LoadScript>
             </div>
         </div>
     );

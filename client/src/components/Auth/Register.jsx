@@ -37,7 +37,11 @@ const Register = () => {
       alert("✅  Registration " + response.data.message);
       navigate('/login');
     } catch (error) {
-      alert("❌ Registration Failed: " + (error.response?.data?.error || "Server error"));
+      if (!error.response) {
+        alert("❌ Registration Failed: Cannot connect to server. Please ensure the backend is running.");
+      } else {
+        alert("❌ Registration Failed: " + (error.response.data?.error || "Server error"));
+      }
     }
   };
 

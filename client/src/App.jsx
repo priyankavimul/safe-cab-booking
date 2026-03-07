@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import Register from './components/Auth/Register';
 import Login from './components/Auth/Login';
+import HomePage from './components/HomePage';
 import './App.css';
 
 function App() {
@@ -23,8 +24,7 @@ function App() {
           <Routes>
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-            {/* Redirects to register so you don't see a blank page */}
-            <Route path="/" element={<Navigate to="/register" />} />
+            <Route path="/" element={<HomePage />} />
           </Routes>
         </main>
       </div>

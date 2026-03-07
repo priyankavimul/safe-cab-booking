@@ -20,7 +20,11 @@ const Login = () => {
       alert(` Welcome back, ${response.data.user.name}!`);
       navigate('/');
     } catch (error) {
-      alert(" Login Failed: " + (error.response?.data?.error || "Incorrect credentials"));
+      if (!error.response) {
+        alert("❌ Login Failed: Cannot connect to server. Please ensure the backend is running.");
+      } else {
+        alert("❌ Login Failed: " + (error.response.data?.error || "Incorrect credentials"));
+      }
     }
   };
 

@@ -58,13 +58,7 @@ nav a:hover {
 .page-content {
   flex: 1;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 40px 20px;
   background-color: #0f172a;
-  background-image:
-    radial-gradient(circle at 30% 20%, rgba(251, 191, 36, 0.04), transparent 400px),
-    radial-gradient(circle at 70% 80%, rgba(251, 191, 36, 0.03), transparent 400px);
 }
 
 @media (max-width: 600px) {
@@ -82,7 +76,6 @@ nav a:hover {
   }
 
   .page-content {
-    padding: 20px 16px;
     align-items: flex-start;
   }
 }
